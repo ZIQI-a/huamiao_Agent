@@ -1,36 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Figtree } from "next/font/google";
+import { Inter } from "next/font/google";
+import { Sidebar } from "@/components/layout/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
-const figtree = Figtree({subsets:['latin'],variable:'--font-sans'});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "话喵 | 你的写作助手",
-  description: "这是一个ai写作助手",
+  title: "话喵 - AI 智能创作平台",
+  description: "AI 驱动的文章创作、古诗词生成、风格仿写平台",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html
-      lang="cn"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", figtree.variable)}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="zh-CN">
+      <body className={inter.className}>
+        <div className="flex h-screen">
+          {/* 左侧导航 */}
+          <Sidebar />
+          {/* 右侧主内容 */}
+          <main className="flex-1 overflow-y-auto">{children}</main>
+        </div>
+        <Toaster />
+      </body>
     </html>
   );
 }
