@@ -19,5 +19,4 @@ export const mimo = new OpenAI({
   baseURL: "https://token-plan-cn.xiaomimimo.com/v1",
 });
 
-// 默认使用 DeepSeek
 export const llm = mimo;

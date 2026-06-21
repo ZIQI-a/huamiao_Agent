@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { llm } from "@/lib/llm/client";
+import { config } from "@/lib/config";
 
 export async function GET() {
   try {
     const response = await llm.chat.completions.create({
-      model: "mimo-v2.5-pro",
+      model: config.llm.model,
       messages: [
         {
           role: "system",
