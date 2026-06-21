@@ -23,7 +23,9 @@ export default function RootLayout({
           {/* 左侧导航 */}
           <Sidebar />
           {/* 右侧主内容 */}
-          <main className="flex-1 overflow-y-auto">{children}</main>
+          <main className="flex-1 overflow-y-auto pt-16 md:pt-20">
+            {children}
+          </main>
         </div>
         <Toaster />
       </body>
