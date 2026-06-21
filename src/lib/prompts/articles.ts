@@ -1,9 +1,20 @@
-export function getArticleSystemPrompt(options: {
-    style?: string;
-    wordCount?: number;
-    detailLevel?: string;
-}) {
-    const { style = "专业", wordCount = 1500, detailLevel = "适中" } = options;
+export interface ArticleOptions {
+    title: string;
+    style: string;
+    wordCount: number;
+    detailLevel: string;
+}
+
+/**
+ * 根据文章创作选项生成文章写作的系统提示词
+ * @param {ArticleOptions} options - 文章创作选项，包含风格、字数和详细程度
+ * @param {string} options.style - 写作风格
+ * @param {number} options.wordCount - 目标文章字数
+ * @param {string} options.detailLevel - 内容详细程度
+ * @returns {string} 用于文章创作的系统提示词字符串
+ */
+export function getArticleSystemPrompt(options: ArticleOptions) {
+    const {style, wordCount, detailLevel} = options;
 
     return `你是一位经验丰富的写作专家，擅长各类文体创作。
 
@@ -24,25 +35,33 @@ export function getArticleSystemPrompt(options: {
 - 不要使用"首先、其次、最后"这种老套的连接词
 - 不要在开头说"在这个快节奏的时代"或类似套话
 - 每个要点必须有具体的例子或数据支撑
-- 语言要自然流畅，像真人写的，不要有 AI 味
-- 适当使用修辞手法（比喻、排比等）增加文采
+- 语言要自然流畅，像真人写的
 
 ## 风格参考
 ${getStyleGuide(style)}`;
 }
 
-/**
- * 根据文章风格类型返回对应的风格指南描述
- * @param {string} style - 风格类型名称，支持"专业"、"轻松"、"文艺"、"新闻"、"故事"
- * @returns {string} 对应风格的指南描述文本；若传入未知风格，则默认返回"专业"风格的指南
- */
 function getStyleGuide(style: string): string {
     const guides: Record<string, string> = {
-        专业: "用词准确严谨，逻辑清晰，引用权威来源。适合技术文档、行业分析。",
-        轻松: "口语化表达，适当幽默，像朋友聊天。适合生活类、娱乐类文章。",
-        文艺: "语言优美，意境丰富，善用修辞。适合散文、随笔、读后感。",
-        新闻: "客观中立，倒金字塔结构（重要信息放前面）。适合新闻报道、事件分析。",
-        故事: "以叙事为主，有人物、情节、冲突。适合人物传记、案例分析。",
+        专业: "用词准确严谨，逻辑清晰。适合技术文档、行业分析。",
+        轻松: "口语化表达，适当幽默，像朋友聊天。适合生活类文章。",
+        文艺: "语言优美，意境丰富，善用修辞。适合散文、随笔。",
+        新闻: "客观中立，重要信息放前面。适合新闻报道。",
+        故事: "以叙事为主，有人物、情节、冲突。适合案例分析。",
     };
     return guides[style] || guides["专业"];
 }
+
+export const ARTICLE_STYLES = [
+    { value: "专业", label: "专业严谨" },
+    { value: "轻松", label: "轻松幽默" },
+    { value: "文艺", label: "文艺优美" },
+    { value: "新闻", label: "新闻报道" },
+    { value: "故事", label: "故事叙事" },
+];
+
+export const DETAIL_LEVELS = [
+    { value: "简洁", label: "简洁概要" },
+    { value: "适中", label: "适中详细" },
+    { value: "详尽", label: "详尽深入" },
+];

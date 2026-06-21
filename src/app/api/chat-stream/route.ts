@@ -1,12 +1,6 @@
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
-import { createOpenAI } from "@ai-sdk/openai";
 import { config } from "@/lib/config";
-
-// Mimo 当前不支持 AI SDK 默认的 responses API，这里显式走 chat API。
-const openai = createOpenAI({
-  apiKey: process.env.MIMO_API_KEY,
-  baseURL: "https://token-plan-cn.xiaomimimo.com/v1",
-});
+import { llmProvider } from "@/lib/llm/client";
 
 // 允许聊天流在服务端持续更长时间，避免长回复被过早中断。
 export const maxDuration = 30;
@@ -24,7 +18,7 @@ export async function POST(req: Request) {
     }
 
     const result = streamText({
-      model: openai.chat(config.llm.model),
+      model: llmProvider.chat(config.llm.model),
       system: "你是一个有帮助的AI助手，请用简洁的中文回答。",
       // 将前端 UIMessage 转成模型可消费的消息格式。
       messages: await convertToModelMessages(messages),

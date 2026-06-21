@@ -1,13 +1,6 @@
 import { streamText } from "ai";
-import { createOpenAI } from "@ai-sdk/openai";
 import { config } from "@/lib/config";
-
-// 创建兼容 OpenAI 接口的提供者。
-// Mimo 当前不支持 AI SDK 默认使用的 responses API，因此这里显式走 chat API。
-const openai = createOpenAI({
-  apiKey: process.env.MIMO_API_KEY,
-  baseURL: "https://token-plan-cn.xiaomimimo.com/v1",
-});
+import { llmProvider } from "@/lib/llm/client";
 
 export async function POST(req: Request) {
   try {
@@ -35,7 +28,7 @@ export async function POST(req: Request) {
 
     const result = streamText({
       // 显式使用 chat 接口，避免请求到 /responses 导致 404。
-      model: openai.chat(model),
+      model: llmProvider.chat(model),
       system: system || "你是一个有帮助的AI助手，请用中文回答。",
       prompt,
       maxOutputTokens: 10000,
