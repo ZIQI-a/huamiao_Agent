@@ -1,6 +1,6 @@
 "use client";
 
-import { useCompletion } from "ai/react";
+import { useCompletion } from "@ai-sdk/react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +16,8 @@ export default function StreamTest() {
     error,
   } = useCompletion({
     api: "/api/generate",
+    // 当前后端返回纯文本流，需要显式按 text 协议解析。
+    streamProtocol: "text",
   });
 
   return (
