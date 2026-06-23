@@ -23,6 +23,7 @@ export default function Poems() {
 
     const { completion, isLoading, error, complete } = useCompletion({
         api: "/api/poems/generate",
+        streamProtocol: "text",
     });
 
     const handleGenerate = async () => {
