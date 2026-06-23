@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { deletePoem } from "@/lib/db/operations";
+import { db } from "@/lib/db";
+import { styles } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
 
-// 删除诗词
 export async function DELETE(
     req: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
     const { id } = await params;
-    await deletePoem(Number(id));
+    await db.delete(styles).where(eq(styles.id, Number(id)));
     return NextResponse.json({ success: true });
 }

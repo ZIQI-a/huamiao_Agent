@@ -8,7 +8,7 @@ export interface ArticleOptions {
 /**
  * 根据文章创作选项生成文章写作的系统提示词
  * @param {ArticleOptions} options - 文章创作选项，包含风格、字数和详细程度
- * @param {string} options.style - 写作风格
+ * @param {string} options.styles - 写作风格
  * @param {number} options.wordCount - 目标文章字数
  * @param {string} options.detailLevel - 内容详细程度
  * @returns {string} 用于文章创作的系统提示词字符串
