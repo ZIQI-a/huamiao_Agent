@@ -54,48 +54,48 @@
   /* 温暖的米白色背景 */
   --background: 40 33% 98%;
   --foreground: 20 14% 12%;
-  
+
   /* 卡片和弹出层 */
   --card: 40 33% 96%;
   --card-foreground: 20 14% 12%;
   --popover: 40 33% 96%;
   --popover-foreground: 20 14% 12%;
-  
+
   /* 主色：温暖的橘色 */
   --primary: 25 85% 57%;
   --primary-foreground: 40 33% 98%;
-  
+
   /* 辅助色：浅驼色 */
   --secondary: 30 20% 90%;
   --secondary-foreground: 20 14% 20%;
-  
+
   /* 静音色 */
   --muted: 30 15% 92%;
   --muted-foreground: 20 8% 45%;
-  
+
   /* 强调色：琥珀色 */
   --accent: 45 80% 60%;
   --accent-foreground: 20 14% 12%;
-  
+
   /* 危险色 */
   --destructive: 0 84% 60%;
   --destructive-foreground: 40 33% 98%;
-  
+
   /* 边框和输入 */
   --border: 30 15% 87%;
   --input: 30 15% 87%;
   --ring: 25 85% 57%;
-  
+
   /* 圆角 */
   --radius: 0.75rem;
-  
+
   /* 图表颜色 */
   --chart-1: 25 85% 57%;
   --chart-2: 45 80% 60%;
   --chart-3: 30 20% 90%;
   --chart-4: 20 14% 45%;
   --chart-5: 20 8% 30%;
-  
+
   /* 侧边栏 */
   --sidebar: 40 33% 96%;
   --sidebar-foreground: 20 14% 12%;
@@ -111,45 +111,45 @@
   /* 深色背景 */
   --background: 20 14% 10%;
   --foreground: 40 20% 92%;
-  
+
   /* 卡片和弹出层 */
   --card: 20 14% 12%;
   --card-foreground: 40 20% 92%;
   --popover: 20 14% 12%;
   --popover-foreground: 40 20% 92%;
-  
+
   /* 主色：保持温暖的橘色 */
   --primary: 25 85% 57%;
   --primary-foreground: 40 33% 98%;
-  
+
   /* 辅助色 */
   --secondary: 20 10% 18%;
   --secondary-foreground: 40 20% 90%;
-  
+
   /* 静音色 */
   --muted: 20 10% 16%;
   --muted-foreground: 30 10% 55%;
-  
+
   /* 强调色 */
   --accent: 45 70% 50%;
   --accent-foreground: 40 33% 98%;
-  
+
   /* 危险色 */
   --destructive: 0 63% 45%;
   --destructive-foreground: 40 33% 98%;
-  
+
   /* 边框和输入 */
   --border: 20 10% 20%;
   --input: 20 10% 20%;
   --ring: 25 85% 57%;
-  
+
   /* 图表颜色 */
   --chart-1: 25 85% 57%;
   --chart-2: 45 70% 50%;
   --chart-3: 30 10% 55%;
   --chart-4: 20 14% 45%;
   --chart-5: 20 8% 30%;
-  
+
   /* 侧边栏 */
   --sidebar: 20 14% 12%;
   --sidebar-foreground: 40 20% 92%;
@@ -173,4 +173,70 @@
   html {
     @apply font-sans;
   }
+}
+
+/* Markdown 渲染样式 */
+.prose h1 {
+  @apply text-3xl font-bold mt-8 mb-4;
+}
+
+.prose h2 {
+  @apply text-2xl font-semibold mt-6 mb-3;
+}
+
+.prose h3 {
+  @apply text-xl font-medium mt-4 mb-2;
+}
+
+.prose p {
+  @apply leading-7 mb-4;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-primary/30 pl-4 italic my-4;
+}
+
+.prose code {
+  @apply bg-muted px-1.5 py-0.5 rounded text-sm;
+}
+
+.prose pre {
+  @apply bg-muted rounded-lg p-4 overflow-x-auto my-4;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0;
+}
+
+.prose ul {
+  @apply list-disc list-inside space-y-1 my-4;
+}
+
+.prose ol {
+  @apply list-decimal list-inside space-y-1 my-4;
+}
+
+.prose hr {
+  @apply my-8 border-border;
+}
+
+.prose a {
+  @apply text-primary underline;
+}
+
+.prose strong {
+  @apply font-semibold;
+}
+
+.prose table {
+  @apply w-full border-collapse my-4;
+}
+
+.prose th,
+.prose td {
+  @apply border border-border px-4 py-2;
+}
+
+.prose th {
+  @apply bg-muted font-medium;
 }
