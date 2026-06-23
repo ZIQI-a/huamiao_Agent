@@ -31,7 +31,16 @@ export async function POST(req: NextRequest) {
         const { object } = await generateObject({
             model: llmProvider.chat(config.llm.model),
             schema: styleSchema,
-            prompt: `分析以下文章的写作风格，用 JSON 格式输出：文章内容：${style.content.slice(0, 3000)}`,
+            system: `你是一个写作风格分析专家。请分析文章的写作风格，严格按以下 JSON 格式输出：
+{
+  "tone": "正式|轻松|文艺|幽默|严肃|客观",
+  "vocabulary": "简单|适中|复杂|学术",
+  "sentenceLength": "短句为主|长短结合|长句为主",
+  "features": ["特点1", "特点2", "特点3"],
+  "summary": "一句话总结风格"
+}
+只输出 JSON，不要有其他内容。`,
+            prompt: `分析以下文章的写作风格：\n\n${style.content.slice(0, 3000)}`,
         });
         // 更新数据库
         await db

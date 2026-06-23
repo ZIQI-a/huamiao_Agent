@@ -6,7 +6,8 @@
       "Bash(pnpm list *)",
       "Bash(node *)",
       "Bash(pnpm install *)",
-      "Bash(pnpm rebuild *)"
+      "Bash(pnpm rebuild *)",
+      "Bash(npx tsc *)"
     ]
   }
 }
