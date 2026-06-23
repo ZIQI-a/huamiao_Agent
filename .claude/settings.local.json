@@ -7,7 +7,10 @@
       "Bash(node *)",
       "Bash(pnpm install *)",
       "Bash(pnpm rebuild *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(pnpm exec *)",
+      "Bash(pnpm db:push)",
+      "Bash(sqlite3 *)"
     ]
   }
 }

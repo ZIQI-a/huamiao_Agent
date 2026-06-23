@@ -12,6 +12,7 @@ export const articles = sqliteTable("articles", {
     createdAt: text("created_at")
         .notNull()
         .default(sql`CURRENT_TIMESTAMP`),
+    isFavorite: integer("is_favorite", { mode: "boolean" }).default(false),
 });
 
 // 诗词表
@@ -24,6 +25,7 @@ export const poems = sqliteTable("poems", {
     createdAt: text("created_at")
         .notNull()
         .default(sql`CURRENT_TIMESTAMP`),
+    isFavorite: integer("is_favorite", { mode: "boolean" }).default(false),
 });
 
 // 风格库表（后面用）
