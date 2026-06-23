@@ -2,6 +2,7 @@ import { streamText } from "ai";
 import { getArticleSystemPrompt } from "@/lib/prompts/articles";
 import { config } from "@/lib/config";
 import { llmProvider } from "@/lib/llm/client";
+import {saveArticle} from "@/lib/db/operations";
 
 export async function POST(req: Request) {
   try {
@@ -38,6 +39,16 @@ export async function POST(req: Request) {
       prompt: `请以《${normalizedTitle}》为题，创作一篇文章。`,
       maxOutputTokens: 10000,
       temperature: 0.8,
+      // 写入数据库
+      onFinish: async ({text}) => {
+        await saveArticle({
+          title,
+          content: text,
+          style: style || "专业",
+          wordCount: text.length,
+          detailLevel: detailLevel || "适中",
+        })
+      }
     });
 
     // useCompletion 消费的是纯文本流，因此接口需要返回 text stream。

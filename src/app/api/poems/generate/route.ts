@@ -2,6 +2,7 @@ import { streamText } from "ai";
 import { getPoemSystemPrompt } from "@/lib/prompts/poem";
 import  { config } from "@/lib/config";
 import { llmProvider } from "@/lib/llm/client";
+import {savePoem} from "@/lib/db/operations";
 
 export async function POST(req: Request) {
     try {
@@ -24,7 +25,7 @@ export async function POST(req: Request) {
         const system = getPoemSystemPrompt({
             noun,
             type: type || "七言绝句",
-            dynasty: dynasty || "宋代",
+            dynasty: dynasty || "唐",
         })
 
         const result = streamText({
@@ -33,6 +34,14 @@ export async function POST(req: Request) {
             prompt: `请以《${noun}》为题，创作一首诗词`,
             maxOutputTokens: 10000,
             temperature: 1,
+            onFinish: async ({ text }) => {
+                await savePoem({
+                    noun,
+                    content: text,
+                    type: type || "七言绝句",
+                    dynasty: dynasty || "唐"
+                })
+            }
         })
 
         return result.toTextStreamResponse();
