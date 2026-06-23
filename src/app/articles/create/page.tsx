@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCompletion } from "@ai-sdk/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,6 +34,9 @@ export default function CreateArticle() {
   const [style, setStyle] = useState("专业");
   const [wordCount, setWordCount] = useState("1500");
   const [detailLevel, setDetailLevel] = useState("适中");
+  const [stylesList, setStylesList] = useState<any[]>([]);
+  const [selectedStyleId, setSelectedStyleId] = useState<string>("");
+  const [mode, setMode] = useState<"normal" | "imitate">("normal");
 
   const { completion, isLoading, error, complete } = useCompletion({
     api: "/api/articles/generate",
@@ -41,18 +44,27 @@ export default function CreateArticle() {
     streamProtocol: "text",
   });
 
+  // 获取所有风格列表
+  useEffect(() => {
+    fetch("/api/styles")
+        .then((res) => res.json())
+        .then(setStylesList);
+  }, []);
+
   const handleGenerate = async () => {
     if (!title.trim()) return;
 
-    // 用标题作为 prompt，便于 hook 和接口语义保持一致。
-    await complete(title.trim(), {
-      body: {
-        title: title.trim(),
-        style,
-        wordCount: Number(wordCount),
-        detailLevel,
-      },
-    });
+    if (mode === "imitate" && selectedStyleId) {
+      // 风格仿写模式
+      await complete("", {
+        body: { title, styleId: Number(selectedStyleId), wordCount: Number(wordCount) },
+      });
+    } else {
+      // 普通模式
+      await complete("", {
+        body: { title, style, wordCount: Number(wordCount), detailLevel },
+      });
+    }
   };
 
   // 粗略统计字数
@@ -72,6 +84,51 @@ export default function CreateArticle() {
               <CardTitle className="text-lg font-semibold">创作参数</CardTitle>
             </CardHeader>
             <CardContent className="space-y-5 pt-5">
+
+              {/* 创作模式 */}
+              <div className="space-y-2">
+                <Label>创作模式</Label>
+                <div className="flex gap-2">
+                  <Button
+                      variant={mode === "normal" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setMode("normal")}
+                  >
+                    自由创作
+                  </Button>
+                  <Button
+                      variant={mode === "imitate" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setMode("imitate")}
+                  >
+                    风格仿写
+                  </Button>
+                </div>
+              </div>
+
+              {/* 风格选择（仿写模式显示） */}
+              {mode === "imitate" && (
+                  <div className="space-y-2">
+                    <Label>选择参考风格</Label>
+                    <Select value={selectedStyleId} onValueChange={setSelectedStyleId}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="选择风格文库中的文章" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {stylesList.map((s: any) => (
+                            <SelectItem key={s.id} value={String(s.id)}>
+                              {s.name}
+                            </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {stylesList.length === 0 && (
+                        <p className="text-xs text-muted-foreground">
+                          请先在风格文库中导入文章
+                        </p>
+                    )}
+                  </div>
+              )}
                 <div className="space-y-2">
                   <Label htmlFor="title">文章标题</Label>
                   <Input
