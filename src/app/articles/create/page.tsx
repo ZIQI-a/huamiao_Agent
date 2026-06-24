@@ -245,6 +245,10 @@ export default function CreateArticle() {
                 {error && (
                   <div className="mb-5 rounded-2xl border border-red-200 bg-red-50/80 px-4 py-3 text-sm text-red-600">
                     生成失败：{error.message}
+                    <ErrorDisplay
+                        error={error.message}
+                        onRetry={handleGenerate}
+                    />
                   </div>
                 )}
 

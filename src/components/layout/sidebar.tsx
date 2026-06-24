@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useTheme } from "next-themes";
+import {Button} from "@/components/ui/button";
 
 const navItems = [
   { label: "首页", href: "/", icon: "🏠" },
@@ -16,6 +18,7 @@ const navItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   return (
     <>
@@ -91,6 +94,11 @@ export function Sidebar() {
           <div className="text-xs text-muted-foreground">
             <p>Powered by DeepSeek</p>
             <p className="mt-1">v0.1.0</p>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            >{theme === "dark" ? "☀️" : "🌙"}</Button>
           </div>
         </div>
       </aside>

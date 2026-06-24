@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
+import {ThemeProvider} from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,17 +18,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" suppressHydrationWarning>
       <body className={inter.className}>
-        <div className="flex h-screen">
-          {/* 左侧导航 */}
-          <Sidebar />
-          {/* 右侧主内容 */}
-          <main className="flex-1 overflow-y-auto pt-16 md:pt-20">
-            {children}
-          </main>
-        </div>
-        <Toaster />
+        <ThemeProvider attribute="class" defaultTheme="light">
+          <div className="flex h-screen">
+            {/* 左侧导航 */}
+            <Sidebar />
+            {/* 右侧主内容 */}
+            <main className="flex-1 overflow-y-auto pt-16 md:pt-20">
+              {children}
+            </main>
+          </div>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
