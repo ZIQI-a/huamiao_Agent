@@ -9,7 +9,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-inter), "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei UI", system-ui, sans-serif;
+  --font-display: var(--font-zcool), "Noto Sans SC", cursive;
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -239,4 +240,300 @@
 
 .prose th {
   @apply bg-muted font-medium;
+}
+
+/* ===== Landing Page Variables ===== */
+:root {
+  --lp-bg: #fff8ee;
+  --lp-bg-warm: #ffe5d9;
+  --lp-surface: #ffffff;
+  --lp-fg: #2d2a26;
+  --lp-muted: #8b7e72;
+  --lp-border: #f0ddd0;
+  --lp-accent: #ff8c42;
+  --lp-accent-deep: #e76f26;
+  --lp-coral: #ff6b6b;
+  --lp-mint: #4ecdc4;
+  --lp-yellow: #ffd93d;
+  --lp-lavender: #c77dff;
+  --lp-shadow-sm: 0 2px 8px rgba(255, 140, 66, 0.08);
+  --lp-shadow-md: 0 8px 24px rgba(255, 140, 66, 0.12);
+  --lp-shadow-lg: 0 16px 48px rgba(255, 140, 66, 0.16);
+}
+
+/* ===== Cat Character (CSS-drawn) ===== */
+.lp-cat {
+  position: relative;
+  width: 240px;
+  height: 280px;
+  animation: catBob 3s ease-in-out infinite;
+}
+
+.lp-cat-ear {
+  position: absolute;
+  top: 0;
+  width: 70px;
+  height: 80px;
+  background: var(--lp-accent);
+}
+.lp-cat-ear-left {
+  left: 30px;
+  border-radius: 50% 50% 20% 20%;
+  transform: rotate(-15deg);
+}
+.lp-cat-ear-right {
+  right: 30px;
+  border-radius: 50% 50% 20% 20%;
+  transform: rotate(15deg);
+}
+
+.lp-cat-ear-inner {
+  position: absolute;
+  top: 12px;
+  width: 34px;
+  height: 44px;
+  background: var(--lp-coral);
+}
+.lp-cat-ear-inner-left {
+  left: 48px;
+  border-radius: 50% 50% 20% 20%;
+  transform: rotate(-15deg);
+}
+.lp-cat-ear-inner-right {
+  right: 48px;
+  border-radius: 50% 50% 20% 20%;
+  transform: rotate(15deg);
+}
+
+.lp-cat-face {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  width: 200px;
+  height: 170px;
+  background: var(--lp-accent);
+  border-radius: 50%;
+}
+.lp-cat-belly {
+  position: absolute;
+  top: 90px;
+  left: 60px;
+  width: 120px;
+  height: 110px;
+  background: #ffe5d9;
+  border-radius: 50%;
+}
+.lp-cat-eye {
+  position: absolute;
+  top: 110px;
+  width: 24px;
+  height: 32px;
+  background: var(--lp-fg);
+  border-radius: 50%;
+}
+.lp-cat-eye-left {
+  left: 70px;
+}
+.lp-cat-eye-right {
+  right: 70px;
+}
+.lp-cat-eye-shine {
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+}
+.lp-cat-nose {
+  position: absolute;
+  top: 145px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 12px;
+  background: var(--lp-coral);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+.lp-cat-mouth {
+  position: absolute;
+  top: 160px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 12px;
+}
+.lp-cat-mouth::before,
+.lp-cat-mouth::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 15px;
+  height: 12px;
+  border: 2px solid var(--lp-fg);
+  border-top: none;
+  border-radius: 0 0 15px 15px;
+}
+.lp-cat-mouth::before {
+  left: 0;
+}
+.lp-cat-mouth::after {
+  right: 0;
+}
+
+.lp-cat-whisker {
+  position: absolute;
+  top: 150px;
+  width: 40px;
+  height: 2px;
+  background: var(--lp-fg);
+  border-radius: 2px;
+  opacity: 0.5;
+}
+.lp-cat-w1 {
+  left: 10px;
+  transform: rotate(-10deg);
+}
+.lp-cat-w2 {
+  left: 10px;
+  top: 160px;
+  transform: rotate(5deg);
+}
+.lp-cat-w3 {
+  right: 10px;
+  transform: rotate(10deg);
+}
+.lp-cat-w4 {
+  right: 10px;
+  top: 160px;
+  transform: rotate(-5deg);
+}
+
+.lp-cat-tail {
+  position: absolute;
+  bottom: 20px;
+  right: -30px;
+  width: 100px;
+  height: 50px;
+  border: 20px solid var(--lp-accent);
+  border-color: transparent transparent var(--lp-accent) transparent;
+  border-radius: 0 0 0 50px;
+  transform: rotate(-30deg);
+  animation: tailWag 2s ease-in-out infinite;
+  transform-origin: bottom left;
+}
+
+.lp-cat-paw {
+  position: absolute;
+  bottom: -5px;
+  width: 40px;
+  height: 30px;
+  background: var(--lp-accent);
+  border-radius: 20px 20px 10px 10px;
+}
+.lp-cat-paw-left {
+  left: 55px;
+}
+.lp-cat-paw-right {
+  right: 55px;
+}
+
+/* ===== Animations ===== */
+@keyframes catBob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes tailWag {
+  0%,
+  100% {
+    transform: rotate(-30deg);
+  }
+  50% {
+    transform: rotate(-15deg);
+  }
+}
+
+@keyframes floatFish {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-10deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+}
+
+@keyframes floatBlob {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, -20px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.3);
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lp-rise {
+  opacity: 0;
+  animation: riseIn 0.6s cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+.lp-rise-1 {
+  animation-delay: 0.05s;
+}
+.lp-rise-2 {
+  animation-delay: 0.18s;
+}
+.lp-rise-3 {
+  animation-delay: 0.31s;
+}
+.lp-rise-4 {
+  animation-delay: 0.44s;
+}
+.lp-rise-5 {
+  animation-delay: 0.57s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-rise {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .lp-cat,
+  .lp-cat-tail {
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }

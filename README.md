@@ -24,6 +24,17 @@
 ```text
 src/
   app/
+    page.tsx             # 产品宣传页（/）
+    layout.tsx           # 根布局（字体、ThemeProvider）
+    globals.css          # 全局样式 + 宣传页动画
+    (app)/               # 路由组：带侧边栏的应用页面
+      layout.tsx         # 应用布局（Sidebar + main）
+      home/page.tsx      # 功能入口页（/home）
+      articles/create/   # 文章创作页
+      poems/             # 古诗词生成页
+      styles/            # 风格文库页
+      history/           # 历史记录页
+      test-ai/           # AI 调试页面
     api/
       articles/
         generate/        # 文章生成（流式）
@@ -41,11 +52,6 @@ src/
       generate/          # 通用流式生成
       chat-stream/       # 多轮对话
       test/              # 模型连通性测试
-    articles/create/     # 文章创作页
-    poems/               # 古诗词生成页
-    styles/              # 风格文库页
-    history/             # 历史记录页
-    test-ai/             # AI 调试页面
   components/
     layout/              # sidebar、page-container
     ui/                  # shadcn/ui 组件
@@ -110,6 +116,14 @@ pnpm db:studio      # 打开 Drizzle Studio 可视化
 ```
 
 ## 功能说明
+
+### 产品宣传页 `/`
+
+独立的产品宣传落地页，展示话喵的核心功能、使用流程和创作演示。不含侧边栏，拥有独立导航。包含 CSS 手绘猫咪角色和交互动画。
+
+### 功能入口 `/home`
+
+带侧边栏的功能入口页，提供文章创作、古诗词生成、风格文库三个核心功能的快捷入口。
 
 ### 文章创作 `/articles/create`
 
