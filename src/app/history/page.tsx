@@ -28,10 +28,6 @@ export default function History() {
     const [poems, setPoems] = useState<Poem[]>([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchHistory();
-    }, []);
-
     const fetchHistory = async () => {
         try {
             const res = await fetch("/api/history");
@@ -44,6 +40,11 @@ export default function History() {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        fetchHistory();
+    }, []);
 
     const handleDeleteArticle = async (id: number) => {
         if (!confirm("确定删除这篇文章？")) return;

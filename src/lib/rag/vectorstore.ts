@@ -1,9 +1,8 @@
-import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { MemoryVectorStore } from "@langchain/classic/vectorstores/memory";
+import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { embeddings } from "./embeddings";
 import { db } from "@/lib/db";
 import { styles } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
 
 // 全局向量存储（内存中）
 let vectorStore: MemoryVectorStore | null = null;
@@ -33,7 +32,7 @@ export async function initVectorStore() {
     for (const style of allStyles) {
         const docs = await splitText(style.content);
         // 给每个文档块加上来源信息
-        docs.forEach((doc) => {
+        docs.forEach((doc: { metadata: Record<string, unknown> }) => {
             doc.metadata.styleId = style.id;
             doc.metadata.styleName = style.name;
         });
@@ -56,10 +55,10 @@ export async function searchSimilar(query: string, k: number = 3) {
 
     const results = await vectorStore.similaritySearchWithScore(query, k);
 
-    return results.map(([doc, score]) => ({
+    return results.map(([doc, score]: [{ pageContent: string; metadata: Record<string, unknown> }, number]) => ({
         content: doc.pageContent,
-        styleId: doc.metadata.styleId,
-        styleName: doc.metadata.styleName,
+        styleId: doc.metadata.styleId as number,
+        styleName: doc.metadata.styleName as string,
         score: score.toFixed(3),
     }));
 }

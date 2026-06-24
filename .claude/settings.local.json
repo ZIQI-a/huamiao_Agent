@@ -10,7 +10,8 @@
       "Bash(npx tsc *)",
       "Bash(pnpm exec *)",
       "Bash(pnpm db:push)",
-      "Bash(sqlite3 *)"
+      "Bash(sqlite3 *)",
+      "Bash(pnpm add *)"
     ]
   }
 }

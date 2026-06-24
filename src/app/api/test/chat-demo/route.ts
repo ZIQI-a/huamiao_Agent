@@ -23,9 +23,10 @@ export async function POST(req: NextRequest) {
       success: true,
       reply: response.choices[0].message.content,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "请求失败";
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, error: message },
       { status: 500 }
     );
   }

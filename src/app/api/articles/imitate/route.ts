@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     const referenceContext =
         similarDocs.length > 0
             ? `\n\n## 参考风格\n以下是风格参考文章的片段，请模仿其写作风格：\n\n${similarDocs
-                .map((doc, i) => `### 参考${i + 1}（来自：${doc.styleName}）\n${doc.content}`)
+                .map((doc: { content: string; styleName: string }, i: number) => `### 参考${i + 1}（来自：${doc.styleName}）\n${doc.content}`)
                 .join("\n\n")}`
             : "";
 
@@ -37,7 +37,7 @@ ${referenceContext}
 4. 如果没有参考风格，就用自然流畅的写作风格`;
 
     const result = streamText({
-        model: llmProvider(config.llm.model),
+        model: llmProvider.chat(config.llm.model),
         system,
         prompt: `请以《${title}》为题，创作一篇文章。`,
         maxOutputTokens: 100000,

@@ -35,7 +35,7 @@ export default function CreateArticle() {
   const [style, setStyle] = useState("专业");
   const [wordCount, setWordCount] = useState("1500");
   const [detailLevel, setDetailLevel] = useState("适中");
-  const [stylesList, setStylesList] = useState<any[]>([]);
+  const [stylesList, setStylesList] = useState<{id: number; name: string}[]>([]);
   const [selectedStyleId, setSelectedStyleId] = useState<string>("");
   const [mode, setMode] = useState<"normal" | "imitate">("normal");
 
@@ -116,7 +116,7 @@ export default function CreateArticle() {
                         <SelectValue placeholder="选择风格文库中的文章" />
                       </SelectTrigger>
                       <SelectContent>
-                        {stylesList.map((s: any) => (
+                        {stylesList.map((s) => (
                             <SelectItem key={s.id} value={String(s.id)}>
                               {s.name}
                             </SelectItem>
@@ -245,10 +245,6 @@ export default function CreateArticle() {
                 {error && (
                   <div className="mb-5 rounded-2xl border border-red-200 bg-red-50/80 px-4 py-3 text-sm text-red-600">
                     生成失败：{error.message}
-                    <ErrorDisplay
-                        error={error.message}
-                        onRetry={handleGenerate}
-                    />
                   </div>
                 )}
 

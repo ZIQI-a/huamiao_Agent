@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { PageContainer } from "@/components/layout/page-container";
 
 interface StyleItem {
@@ -24,16 +23,17 @@ export default function StylesPage() {
     const fileRef = useRef<HTMLInputElement>(null);
     const nameRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
-        fetchStyles();
-    }, []);
-
     const fetchStyles = async () => {
         const res = await fetch("/api/styles");
         const data = await res.json();
         setStyles(data);
         setLoading(false);
     };
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        fetchStyles();
+    }, []);
 
     const handleUpload = async () => {
         const file = fileRef.current?.files?.[0];

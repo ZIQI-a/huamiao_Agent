@@ -8,7 +8,7 @@ import { PageContainer } from "@/components/layout/page-container";
 export default function TestAI() {
   const [reply, setReply] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [usage, setUsage] = useState<any>(null);
+  const [usage, setUsage] = useState<{prompt_tokens: number; completion_tokens: number; total_tokens: number} | null>(null);
 
   const handleTest = async () => {
     setLoading(true);
