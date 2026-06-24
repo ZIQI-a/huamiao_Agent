@@ -21,6 +21,7 @@ import {
 import { PageContainer } from "@/components/layout/page-container";
 import MarkdownRenderer from "@/components/ui/markdown-renderer";
 import { ARTICLE_STYLES, DETAIL_LEVELS } from "@/lib/prompts/articles";
+import {downloadMarkdown} from "@/lib/export/markdown";
 
 const wordCountOptions = [
   { value: "800", label: "800 字", hint: "短文速写" },
@@ -129,7 +130,7 @@ export default function CreateArticle() {
                     )}
                   </div>
               )}
-                <div className="space-y-2">
+                <div className="space-y-2 ">
                   <Label htmlFor="title">文章标题</Label>
                   <Input
                     id="title"
@@ -231,6 +232,13 @@ export default function CreateArticle() {
                     已生成: {charCount} 字
                   </span>
                 </div>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => downloadMarkdown(completion, title || "文章")}
+                >
+                  导出 Markdown
+                </Button>
               </div>
             </CardHeader>
             <CardContent className="pt-5">
