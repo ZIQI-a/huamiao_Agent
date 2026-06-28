@@ -6,7 +6,7 @@
 
 - 面向中文创作场景，重点是古诗词生成与文章创作。
 - 基于 Next.js App Router 构建，前后端同仓开发。
-- 通过 OpenAI Compatible 接口接入多家模型，目前默认走 `mimo-v2.5-pro`。
+- 通过 OpenAI Compatible 接口接入多家模型，具体模型通过环境变量配置。
 - 使用 SQLite + Drizzle ORM 做本地持久化，RAG 向量检索支持风格仿写。
 
 ## 技术栈
@@ -88,9 +88,9 @@ pnpm db:push
 项目通过 `.env.local` 注入密钥，`.env*` 已被 `.gitignore` 忽略。
 
 ```bash
-# LLM 供应商（三选一，通过 LLM_PROVIDER 切换，默认 mimo）
+# LLM 供应商（三选一，通过 LLM_PROVIDER 切换）
 LLM_PROVIDER=mimo
-LLM_MODEL=mimo-v2.5-pro
+LLM_MODEL=
 MIMO_API_KEY=
 DEEPSEEK_API_KEY=
 QWEN_API_KEY=

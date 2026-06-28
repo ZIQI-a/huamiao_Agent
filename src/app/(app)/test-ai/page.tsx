@@ -33,7 +33,7 @@ export default function TestAI() {
   };
 
   return (
-    <PageContainer title="AI 测试" description="测试 DeepSeek API 调用">
+    <PageContainer title="AI 测试" description="测试当前模型 API 调用">
       <div className="space-y-6">
         <Button onClick={handleTest} disabled={loading}>
           {loading ? "AI 思考中..." : "调用 AI"}

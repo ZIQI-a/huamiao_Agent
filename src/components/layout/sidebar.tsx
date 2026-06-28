@@ -92,7 +92,6 @@ export function Sidebar() {
         {/* 底部信息 */}
         <div className="p-4 border-t">
           <div className="text-xs text-muted-foreground">
-            <p>Powered by DeepSeek</p>
             <p className="mt-1">v0.1.0</p>
             <Button
               variant="ghost"

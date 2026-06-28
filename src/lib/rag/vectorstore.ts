@@ -3,9 +3,15 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { embeddings } from "./embeddings";
 import { db } from "@/lib/db";
 import { styles } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
 
 // 全局向量存储（内存中）
 let vectorStore: MemoryVectorStore | null = null;
+
+// 风格库变更后清空内存缓存，下一次检索会重新从数据库加载。
+export function resetVectorStore() {
+    vectorStore = null;
+}
 
 // 文档分块
 export async function splitText(content: string) {
@@ -44,7 +50,37 @@ export async function initVectorStore() {
 }
 
 // 检索相似文档
-export async function searchSimilar(query: string, k: number = 3) {
+async function searchSimilarInSelectedStyle(query: string, k: number, styleId: number) {
+    const [style] = await db.select().from(styles).where(eq(styles.id, styleId));
+
+    if (!style) {
+        return [];
+    }
+
+    const docs = await splitText(style.content);
+    docs.forEach((doc: { metadata: Record<string, unknown> }) => {
+        doc.metadata.styleId = style.id;
+        doc.metadata.styleName = style.name;
+    });
+
+    // 选中单个风格时使用临时向量库，避免全局检索混入其他风格文章。
+    const selectedStore = await MemoryVectorStore.fromDocuments(docs, embeddings);
+    const results = await selectedStore.similaritySearchWithScore(query, k);
+
+    return results.map(([doc, score]: [{ pageContent: string; metadata: Record<string, unknown> }, number]) => ({
+        content: doc.pageContent,
+        styleId: doc.metadata.styleId as number,
+        styleName: doc.metadata.styleName as string,
+        score: score.toFixed(3),
+    }));
+}
+
+// 检索相似文档；传入 styleId 时只在该风格文章内检索。
+export async function searchSimilar(query: string, k: number = 3, styleId?: number) {
+    if (styleId) {
+        return searchSimilarInSelectedStyle(query, k, styleId);
+    }
+
     if (!vectorStore) {
         await initVectorStore();
     }

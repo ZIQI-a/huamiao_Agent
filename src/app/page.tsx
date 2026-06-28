@@ -164,7 +164,7 @@ export default function LandingPage() {
           <a href="#how" className="px-4 py-2 rounded-full text-[15px] font-medium transition-colors hover:bg-[var(--lp-bg-warm)]" style={{ color: "var(--lp-fg)" }}>使用流程</a>
           <a href="#showcase" className="px-4 py-2 rounded-full text-[15px] font-medium transition-colors hover:bg-[var(--lp-bg-warm)]" style={{ color: "var(--lp-fg)" }}>创作演示</a>
           <Link
-            href="/articles/create"
+            href="/home"
             className="px-5 py-2.5 rounded-full text-[15px] font-bold text-white transition-all hover:-translate-y-0.5"
             style={{ background: "var(--lp-accent)", boxShadow: "0 4px 14px rgba(255,140,66,0.3)" }}
           >
@@ -191,7 +191,7 @@ export default function LandingPage() {
           <a href="#how" onClick={() => setMobileMenuOpen(false)} className="px-4 py-3 rounded-xl text-[15px] font-medium" style={{ color: "var(--lp-fg)" }}>使用流程</a>
           <a href="#showcase" onClick={() => setMobileMenuOpen(false)} className="px-4 py-3 rounded-xl text-[15px] font-medium" style={{ color: "var(--lp-fg)" }}>创作演示</a>
           <Link
-            href="/articles/create"
+            href="/home"
             onClick={() => setMobileMenuOpen(false)}
             className="px-4 py-3 rounded-xl text-[15px] font-bold text-white text-center"
             style={{ background: "var(--lp-accent)" }}
@@ -227,7 +227,7 @@ export default function LandingPage() {
               style={{ background: "var(--lp-bg-warm)", border: "1.5px solid var(--lp-border)", color: "var(--lp-accent-deep)" }}
             >
               <span className="w-2 h-2 rounded-full" style={{ background: "var(--lp-accent)", animation: "pulse 2s ease-in-out infinite" }} />
-              Powered by DeepSeek · v0.1.0
+              AI 智能创作平台 · v0.1.0
             </div>
 
             <h1
@@ -252,7 +252,7 @@ export default function LandingPage() {
 
             <div className="lp-rise lp-rise-4 flex gap-4 flex-wrap">
               <Link
-                href="/articles/create"
+                href="/home"
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold text-white transition-all hover:-translate-y-0.5"
                 style={{ background: "var(--lp-accent)", boxShadow: "0 6px 20px rgba(255,140,66,0.35)" }}
               >
@@ -312,7 +312,7 @@ export default function LandingPage() {
               <span className="px-3 py-1 rounded-full text-[13px] font-medium" style={{ background: "rgba(255,255,255,0.2)" }}>多风格切换</span>
               <span className="px-3 py-1 rounded-full text-[13px] font-medium" style={{ background: "rgba(255,255,255,0.2)" }}>一键调节字数</span>
             </div>
-            <Link href="/articles/create" className="inline-flex items-center gap-1.5 text-base font-semibold text-white relative group">
+            <Link href="/home" className="inline-flex items-center gap-1.5 text-base font-semibold text-white relative group">
               试试写一篇文章
               <ArrowRight className="w-[18px] h-[18px] transition-transform group-hover:translate-x-1.5" />
               <span className="absolute bottom-1 left-0 right-0 h-0.5 bg-white rounded-sm opacity-30" />
@@ -551,7 +551,7 @@ export default function LandingPage() {
           </p>
           <div className="flex gap-4 justify-center flex-wrap relative z-10">
             <Link
-              href="/articles/create"
+              href="/home"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold text-white transition-all hover:-translate-y-0.5"
               style={{ background: "var(--lp-accent)", boxShadow: "0 6px 20px rgba(255,140,66,0.35)" }}
             >
@@ -580,7 +580,7 @@ export default function LandingPage() {
           话喵
         </div>
         <p className="text-sm" style={{ color: "var(--lp-muted)" }}>
-          AI 智能创作平台 · Powered by DeepSeek v0.1.0
+          AI 智能创作平台 · v0.1.0
         </p>
       </footer>
     </div>

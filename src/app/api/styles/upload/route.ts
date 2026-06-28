@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { styles } from "@/lib/db/schema";
+import { resetVectorStore } from "@/lib/rag/vectorstore";
 
 export async function POST(req: NextRequest) {
     try {
@@ -30,6 +31,9 @@ export async function POST(req: NextRequest) {
                 content,
             })
             .returning();
+
+        // 风格库新增后清空 RAG 内存缓存，保证后续仿写能检索到新文章。
+        resetVectorStore();
 
         return NextResponse.json({ success: true, style: result[0] });
     } catch (error: unknown) {
