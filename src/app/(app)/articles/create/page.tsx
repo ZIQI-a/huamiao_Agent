@@ -75,6 +75,16 @@ export default function CreateArticle() {
     });
   };
 
+  const handleCopy = async () => {
+    if (!completion.trim()) return;
+
+    try {
+      await navigator.clipboard.writeText(completion);
+    } catch {
+      window.alert("复制失败，请手动选择内容");
+    }
+  };
+
   const hasContent = completion.trim().length > 0;
   const selectedStyleLabel =
     ARTICLE_STYLES.find((item) => item.value === style)?.label || style;
@@ -226,6 +236,24 @@ export default function CreateArticle() {
               <span className="text-xs text-[var(--hm-muted)]">{completion.length || ""}</span>
             </div>
             <div className="hm-toolbar-actions">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="hm-tool-btn"
+                disabled={!hasContent}
+                onClick={handleCopy}
+              >
+                复制
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="hm-tool-btn"
+                disabled={!hasContent || isLoading}
+                onClick={handleGenerate}
+              >
+                重新生成
+              </Button>
               <Button
                 variant="ghost"
                 size="sm"

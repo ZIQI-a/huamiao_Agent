@@ -571,7 +571,7 @@
 
 .hm-workspace-main {
   min-height: 100vh;
-  padding: 88px 24px 24px 96px;
+  padding: 64px 0 0;
   overflow-x: hidden;
 }
 
@@ -715,13 +715,30 @@
 }
 
 .hm-icon-btn {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
   border-radius: 12px;
   color: var(--hm-muted);
+  transition: all 0.2s ease;
 }
 
 .hm-icon-btn:hover {
   background: var(--hm-bg-warm);
   color: var(--hm-accent-deep);
+}
+
+.hm-icon-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
 .hm-avatar {
@@ -742,106 +759,13 @@
   transform: scale(1.05);
 }
 
-.hm-side-rail {
-  position: fixed;
-  top: 64px;
-  bottom: 0;
-  left: 0;
-  z-index: 50;
-  display: flex;
-  width: 72px;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  border-right: 1.5px solid var(--hm-border);
-  background: var(--hm-surface);
-  padding: 16px 0;
-}
-
-.hm-rail-logo,
-.hm-rail-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-.hm-rail-logo {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 8px;
-  border-radius: 14px;
-  background: var(--hm-accent-light);
-  font-size: 22px;
-}
-
-.hm-rail-nav {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.hm-rail-btn {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  color: var(--hm-muted);
-  font-size: 20px;
-  transition: all 0.2s ease;
-}
-
-.hm-rail-btn:hover {
-  background: var(--hm-bg-warm);
-  color: var(--hm-accent);
-}
-
-.hm-rail-btn.active {
-  background: var(--hm-accent-light);
-  color: var(--hm-accent-deep);
-}
-
-.hm-rail-btn.active::before {
-  position: absolute;
-  top: 50%;
-  left: -12px;
-  width: 4px;
-  height: 24px;
-  border-radius: 0 4px 4px 0;
-  background: var(--hm-accent);
-  content: "";
-  transform: translateY(-50%);
-}
-
-.hm-rail-btn[data-tooltip]:hover::after {
-  position: absolute;
-  top: 50%;
-  left: calc(100% + 12px);
-  z-index: 200;
-  border-radius: 8px;
-  background: var(--hm-fg);
-  color: #fff;
-  content: attr(data-tooltip);
-  font-size: 13px;
-  padding: 6px 12px;
-  pointer-events: none;
-  transform: translateY(-50%);
-  white-space: nowrap;
-}
-
-.hm-rail-footer {
-  color: var(--hm-muted);
-  font-size: 11px;
-}
-
 .hm-page {
-  width: min(100%, 1280px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
 }
 
 .hm-page-header {
-  margin-bottom: 18px;
+  display: none;
 }
 
 .hm-page-header h1 {
@@ -860,12 +784,13 @@
   display: grid;
   grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
   gap: 0;
-  min-height: calc(100vh - 136px);
+  height: calc(100vh - 64px);
+  min-height: calc(100vh - 64px);
   overflow: hidden;
-  border: 1.5px solid var(--hm-border);
-  border-radius: 24px;
+  border: 0;
+  border-radius: 0;
   background: var(--hm-surface);
-  box-shadow: var(--hm-shadow-md);
+  box-shadow: none;
 }
 
 .hm-input-panel {
@@ -1273,10 +1198,9 @@
 
 @media (max-width: 768px) {
   .hm-workspace-main {
-    padding: 84px 14px 18px;
+    padding: 64px 0 0;
   }
 
-  .hm-side-rail,
   .hm-breadcrumb {
     display: none;
   }

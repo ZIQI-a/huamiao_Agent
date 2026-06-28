@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PageContainer } from "@/components/layout/page-container";
 import { POEM_TYPES, DYNASTIES } from "@/lib/prompts/poem";
+import { downloadMarkdown } from "@/lib/export/markdown";
 
 const poemColors = ["#4ECDC4", "#FF8C42", "#8B5CF6", "#C77DFF", "#FF6B6B"];
 
@@ -27,6 +28,16 @@ export default function Poems() {
         await complete("", {
             body: { noun: normalizedNoun, type, dynasty },
         });
+    };
+
+    const handleCopy = async () => {
+        if (!completion.trim()) return;
+
+        try {
+            await navigator.clipboard.writeText(completion);
+        } catch {
+            window.alert("复制失败，请手动选择内容");
+        }
     };
 
     const hasContent = completion.trim().length > 0;
@@ -111,6 +122,35 @@ export default function Poems() {
                                 {error ? "生成失败" : isLoading ? "创作中" : hasContent ? "创作完成" : "等待创作"}
                             </span>
                             <span className="text-xs text-[var(--hm-muted)]">{type} · {dynasty}风</span>
+                        </div>
+                        <div className="hm-toolbar-actions">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="hm-tool-btn"
+                                disabled={!hasContent}
+                                onClick={handleCopy}
+                            >
+                                复制
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="hm-tool-btn"
+                                disabled={!hasContent || isLoading}
+                                onClick={handleGenerate}
+                            >
+                                重新生成
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="hm-tool-btn primary"
+                                disabled={!hasContent}
+                                onClick={() => downloadMarkdown(completion, noun || "诗词")}
+                            >
+                                导出Markdown
+                            </Button>
                         </div>
                     </div>
 
