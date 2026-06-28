@@ -6,14 +6,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useTheme } from "next-themes";
 import {Button} from "@/components/ui/button";
-
-const navItems = [
-  { label: "首页", href: "/home", icon: "🏠" },
-  { label: "文章创作", href: "/articles/create", icon: "✍️" },
-  { label: "古诗词", href: "/poems", icon: "📜" },
-  { label: "风格文库", href: "/styles", icon: "📚" },
-  { label: "历史记录", href: "/history", icon: "📋" },
-];
+import { APP_NAV_ITEMS, ROUTES } from "@/lib/routes";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -24,7 +17,7 @@ export function Sidebar() {
     <>
       {/* 移动端顶部栏 */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-card border-b p-4 flex items-center justify-between">
-        <Link href="/home" className="flex items-center gap-2">
+        <Link href={ROUTES.home} className="flex items-center gap-2">
           <span className="text-2xl">🐱</span>
           <span className="font-bold text-primary">话喵</span>
         </Link>
@@ -54,7 +47,7 @@ export function Sidebar() {
         {/* Logo */}
         <div className="p-6 border-b">
           <Link
-            href="/home"
+            href={ROUTES.home}
             className="flex items-center gap-2"
             onClick={() => setIsOpen(false)}
           >
@@ -68,7 +61,7 @@ export function Sidebar() {
 
         {/* 导航菜单 */}
         <nav className="flex-1 p-4 space-y-1">
-          {navItems.map((item) => {
+          {APP_NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link

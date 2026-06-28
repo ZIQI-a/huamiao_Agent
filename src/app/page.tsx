@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { ROUTES } from "@/lib/routes";
 
 /* ───── SVG Icons ───── */
 const PenIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
@@ -153,7 +154,7 @@ export default function LandingPage() {
           boxShadow: "var(--lp-shadow-sm)",
         }}
       >
-        <Link href="/" className="flex items-center gap-2 font-['ZCOOL_KuaiLe',cursive] text-[22px]" style={{ color: "var(--lp-fg)" }}>
+        <Link href={ROUTES.landing} className="flex items-center gap-2 font-['ZCOOL_KuaiLe',cursive] text-[22px]" style={{ color: "var(--lp-fg)" }}>
           <CatLogo size={36} />
           话喵
         </Link>
@@ -164,7 +165,7 @@ export default function LandingPage() {
           <a href="#how" className="px-4 py-2 rounded-full text-[15px] font-medium transition-colors hover:bg-[var(--lp-bg-warm)]" style={{ color: "var(--lp-fg)" }}>使用流程</a>
           <a href="#showcase" className="px-4 py-2 rounded-full text-[15px] font-medium transition-colors hover:bg-[var(--lp-bg-warm)]" style={{ color: "var(--lp-fg)" }}>创作演示</a>
           <Link
-            href="/home"
+            href={ROUTES.home}
             className="px-5 py-2.5 rounded-full text-[15px] font-bold text-white transition-all hover:-translate-y-0.5"
             style={{ background: "var(--lp-accent)", boxShadow: "0 4px 14px rgba(255,140,66,0.3)" }}
           >
@@ -191,7 +192,7 @@ export default function LandingPage() {
           <a href="#how" onClick={() => setMobileMenuOpen(false)} className="px-4 py-3 rounded-xl text-[15px] font-medium" style={{ color: "var(--lp-fg)" }}>使用流程</a>
           <a href="#showcase" onClick={() => setMobileMenuOpen(false)} className="px-4 py-3 rounded-xl text-[15px] font-medium" style={{ color: "var(--lp-fg)" }}>创作演示</a>
           <Link
-            href="/home"
+            href={ROUTES.home}
             onClick={() => setMobileMenuOpen(false)}
             className="px-4 py-3 rounded-xl text-[15px] font-bold text-white text-center"
             style={{ background: "var(--lp-accent)" }}
@@ -252,7 +253,7 @@ export default function LandingPage() {
 
             <div className="lp-rise lp-rise-4 flex gap-4 flex-wrap">
               <Link
-                href="/home"
+                href={ROUTES.home}
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold text-white transition-all hover:-translate-y-0.5"
                 style={{ background: "var(--lp-accent)", boxShadow: "0 6px 20px rgba(255,140,66,0.35)" }}
               >
@@ -312,7 +313,7 @@ export default function LandingPage() {
               <span className="px-3 py-1 rounded-full text-[13px] font-medium" style={{ background: "rgba(255,255,255,0.2)" }}>多风格切换</span>
               <span className="px-3 py-1 rounded-full text-[13px] font-medium" style={{ background: "rgba(255,255,255,0.2)" }}>一键调节字数</span>
             </div>
-            <Link href="/home" className="inline-flex items-center gap-1.5 text-base font-semibold text-white relative group">
+            <Link href={ROUTES.home} className="inline-flex items-center gap-1.5 text-base font-semibold text-white relative group">
               试试写一篇文章
               <ArrowRight className="w-[18px] h-[18px] transition-transform group-hover:translate-x-1.5" />
               <span className="absolute bottom-1 left-0 right-0 h-0.5 bg-white rounded-sm opacity-30" />
@@ -334,7 +335,7 @@ export default function LandingPage() {
             <p className="text-[15px] leading-7 opacity-90 mb-5">
               给一个名词，话喵为你作一首古诗词，附带注释与赏析，帮你读懂每一处用意。
             </p>
-            <Link href="/poems" className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-white relative group">
+            <Link href={ROUTES.poems} className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-white relative group">
               试试作一首诗
               <ArrowRight className="w-[18px] h-[18px] transition-transform group-hover:translate-x-1.5" />
               <span className="absolute bottom-1 left-0 right-0 h-0.5 bg-white rounded-sm opacity-30" />
@@ -353,7 +354,7 @@ export default function LandingPage() {
             <p className="text-[15px] leading-7 opacity-90 mb-5">
               导入你喜欢的文章，话喵学习风格后进行仿写创作，让 AI 写出像你喜欢的作者那样的文字。
             </p>
-            <Link href="/styles" className="inline-flex items-center gap-1.5 text-[15px] font-semibold relative group" style={{ color: "var(--lp-fg)" }}>
+            <Link href={ROUTES.styles} className="inline-flex items-center gap-1.5 text-[15px] font-semibold relative group" style={{ color: "var(--lp-fg)" }}>
               试试风格仿写
               <ArrowRight className="w-[18px] h-[18px] transition-transform group-hover:translate-x-1.5" />
               <span className="absolute bottom-1 left-0 right-0 h-0.5 rounded-sm opacity-30" style={{ background: "var(--lp-fg)" }} />
@@ -551,7 +552,7 @@ export default function LandingPage() {
           </p>
           <div className="flex gap-4 justify-center flex-wrap relative z-10">
             <Link
-              href="/home"
+              href={ROUTES.home}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold text-white transition-all hover:-translate-y-0.5"
               style={{ background: "var(--lp-accent)", boxShadow: "0 6px 20px rgba(255,140,66,0.35)" }}
             >

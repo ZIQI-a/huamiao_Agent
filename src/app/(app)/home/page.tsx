@@ -1,30 +1,30 @@
 import Link from "next/link";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ROUTES } from "@/lib/routes";
 
 const features = [
   {
     title: "文章创作",
     description: "输入标题，AI 帮你写文章。支持选择字数、风格和详细程度。",
     icon: "✍️",
-    href: "/articles/create",
+    href: ROUTES.articles.create,
   },
   {
     title: "古诗词生成",
     description: "输入一个名词，AI 为你创作古诗词，附带注释和赏析。",
     icon: "📜",
-    href: "/poems",
+    href: ROUTES.poems,
   },
   {
     title: "风格文库",
     description: "导入你喜欢的文章，AI 学习风格后进行仿写创作。",
     icon: "📚",
-    href: "/styles",
+    href: ROUTES.styles,
   },
 ];
 
