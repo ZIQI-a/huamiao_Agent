@@ -5,19 +5,7 @@ interface PageContainerProps {
 }
 
 export function PageContainer({
-  title,
-  description,
   children,
 }: PageContainerProps) {
-  return (
-    <div className="hm-page">
-      <div className="hm-page-header">
-        <h1>{title}</h1>
-        {description && (
-          <p>{description}</p>
-        )}
-      </div>
-      {children}
-    </div>
-  );
+  return <div className="hm-page">{children}</div>;
 }

@@ -35,11 +35,6 @@ const features = [
 export default function Home() {
   return (
     <div className="hm-page">
-      <div className="hm-page-header">
-        <h1>创作工作台</h1>
-        <p>选择一个创作入口，输入主题后开始生成。</p>
-      </div>
-
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         {features.map((feature) => (
           <Link key={feature.href} href={feature.href}>
