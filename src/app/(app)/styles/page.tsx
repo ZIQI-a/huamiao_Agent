@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PageContainer } from "@/components/layout/page-container";
 
 interface StyleItem {
     id: number;
@@ -93,7 +92,7 @@ export default function StylesPage() {
     };
 
     return (
-        <PageContainer title="风格文库" description="导入参考文章，分析写作风格，并用于文章仿写。">
+        <div className="hm-page">
             <div className="grid grid-cols-1 gap-5 xl:grid-cols-[380px_minmax(0,1fr)]">
                 <section className="hm-input-panel rounded-[24px] border border-[var(--hm-border)]">
                     <div className="hm-panel-heading">
@@ -199,6 +198,6 @@ export default function StylesPage() {
                     </div>
                 </section>
             </div>
-        </PageContainer>
+        </div>
     );
 }

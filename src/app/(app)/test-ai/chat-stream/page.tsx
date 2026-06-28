@@ -6,7 +6,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { PageContainer } from "@/components/layout/page-container";
 
 export default function ChatStream() {
   const { messages, sendMessage, status, error } = useChat({
@@ -29,7 +28,7 @@ export default function ChatStream() {
   };
 
   return (
-    <PageContainer title="流式对话" description="多轮对话 + 流式输出">
+    <div className="hm-page">
       <div className="space-y-4">
         {/* 消息列表 */}
         <div className="space-y-3 max-h-[500px] overflow-y-auto">
@@ -86,6 +85,6 @@ export default function ChatStream() {
           </Button>
         </form>
       </div>
-    </PageContainer>
+    </div>
   );
 }

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { PageContainer } from "@/components/layout/page-container";
 
 interface Message {
   role: "user" | "assistant";
@@ -57,7 +56,7 @@ export default function ChatDemo() {
   };
 
   return (
-    <PageContainer title="对话测试" description="测试多轮对话">
+    <div className="hm-page">
       <div className="space-y-4">
         {/* 消息列表 */}
         <div className="space-y-3 max-h-96 overflow-y-auto">
@@ -104,6 +103,6 @@ export default function ChatDemo() {
           </Button>
         </div>
       </div>
-    </PageContainer>
+    </div>
   );
 }

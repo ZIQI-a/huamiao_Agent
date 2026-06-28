@@ -694,24 +694,40 @@
 }
 
 .hm-mode-tab {
+  position: relative;
   border-radius: 8px;
   padding: 7px 16px;
   color: var(--hm-muted);
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: color 0.22s ease, background-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
   white-space: nowrap;
 }
 
 .hm-mode-tab:hover {
   color: var(--hm-fg);
+  transform: translateY(-1px);
 }
 
 .hm-mode-tab.active {
   background: var(--hm-surface);
   color: var(--hm-accent-deep);
   box-shadow: var(--hm-shadow-sm);
+  animation: hmTabSettle 0.26s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hm-mode-tab.active::after {
+  position: absolute;
+  right: 14px;
+  bottom: 4px;
+  left: 14px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--hm-accent);
+  content: "";
+  transform-origin: center;
+  animation: hmTabUnderline 0.28s ease both;
 }
 
 .hm-icon-btn {
@@ -791,6 +807,7 @@
   border-radius: 0;
   background: var(--hm-surface);
   box-shadow: none;
+  animation: hmPageIn 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .hm-input-panel {
@@ -798,6 +815,7 @@
   border-right: 1.5px solid var(--hm-border);
   background: var(--hm-surface);
   padding: 24px;
+  animation: hmPanelIn 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .hm-preview-panel {
@@ -817,6 +835,7 @@
   border-bottom: 1.5px solid var(--hm-border);
   background: var(--hm-surface);
   padding: 12px 24px;
+  animation: hmToolbarIn 0.34s ease both;
 }
 
 .hm-toolbar-left,
@@ -832,11 +851,40 @@
   padding: 32px 48px;
 }
 
+.hm-preview-content > * {
+  animation: hmContentIn 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
 .hm-panel-heading {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 24px;
+}
+
+.hm-input-panel .hm-form-section,
+.hm-input-panel .hm-generate-btn {
+  animation: hmFormItemIn 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.hm-input-panel .hm-form-section:nth-of-type(1) {
+  animation-delay: 0.03s;
+}
+
+.hm-input-panel .hm-form-section:nth-of-type(2) {
+  animation-delay: 0.06s;
+}
+
+.hm-input-panel .hm-form-section:nth-of-type(3) {
+  animation-delay: 0.09s;
+}
+
+.hm-input-panel .hm-form-section:nth-of-type(4) {
+  animation-delay: 0.12s;
+}
+
+.hm-input-panel .hm-generate-btn {
+  animation-delay: 0.15s;
 }
 
 .hm-panel-icon {
@@ -919,17 +967,19 @@
   background: var(--hm-surface-2);
   padding: 12px;
   text-align: left;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .hm-option-card:hover {
   border-color: var(--hm-border-strong);
-  transform: translateY(-1px);
+  box-shadow: var(--hm-shadow-sm);
+  transform: translateY(-2px);
 }
 
 .hm-option-card.active {
   border-color: var(--hm-accent);
   background: var(--hm-accent-light);
+  animation: hmOptionSelect 0.22s ease both;
 }
 
 .hm-option-dot {
@@ -969,12 +1019,13 @@
   color: var(--hm-muted);
   font-size: 13px;
   padding: 6px 14px;
-  transition: all 0.15s ease;
+  transition: border-color 0.16s ease, background-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
 }
 
 .hm-tag:hover {
   border-color: var(--hm-border-strong);
   color: var(--hm-fg);
+  transform: translateY(-1px);
 }
 
 .hm-tag.active {
@@ -982,6 +1033,7 @@
   background: var(--hm-accent);
   color: #fff;
   font-weight: 700;
+  animation: hmOptionSelect 0.2s ease both;
 }
 
 .hm-generate-btn {
@@ -993,11 +1045,17 @@
   font-size: 16px;
   font-weight: 800;
   box-shadow: var(--hm-shadow-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .hm-generate-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: var(--hm-shadow-lg);
+  filter: saturate(1.06);
+}
+
+.hm-generate-btn:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .hm-status-badge {
@@ -1025,6 +1083,10 @@
   color: #b8860b;
 }
 
+.hm-status-badge.loading::before {
+  animation: hmPulseDot 1s ease-in-out infinite;
+}
+
 .hm-status-badge.done {
   background: var(--hm-mint-light);
   color: #2a9d8f;
@@ -1038,6 +1100,11 @@
 .hm-tool-btn {
   border-radius: 10px !important;
   color: var(--hm-muted);
+  transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.hm-tool-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
 }
 
 .hm-tool-btn.primary {
@@ -1053,6 +1120,7 @@
   background: rgba(255, 255, 255, 0.72);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
   overflow: hidden;
+  animation: hmResultIn 0.42s cubic-bezier(0.18, 0.82, 0.28, 1) both;
 }
 
 .hm-result-bar {
@@ -1089,6 +1157,7 @@
   height: 112px;
   border-radius: 999px;
   background: var(--hm-accent-light);
+  animation: hmCatFloat 3.2s ease-in-out infinite;
 }
 
 .hm-empty-cat::before,
@@ -1172,18 +1241,154 @@
   border-radius: 18px !important;
   background: var(--hm-surface) !important;
   box-shadow: var(--hm-shadow-sm);
+  animation: hmCardIn 0.34s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease !important;
 }
 
 .hm-list-card {
   border: 1.5px solid transparent !important;
   border-radius: 16px !important;
   background: var(--hm-surface) !important;
-  transition: all 0.2s ease;
+  animation: hmCardIn 0.3s ease both;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .hm-list-card:hover {
   border-color: var(--hm-accent) !important;
   background: var(--hm-accent-light) !important;
+  box-shadow: var(--hm-shadow-sm);
+  transform: translateY(-1px);
+}
+
+@keyframes hmPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hmPanelIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hmToolbarIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hmContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hmFormItemIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hmCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hmResultIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hmTabSettle {
+  from {
+    transform: translateY(1px) scale(0.98);
+  }
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hmTabUnderline {
+  from {
+    opacity: 0;
+    transform: scaleX(0.35);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes hmOptionSelect {
+  0% {
+    transform: scale(0.98);
+  }
+  70% {
+    transform: scale(1.015);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes hmPulseDot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.45);
+  }
+}
+
+@keyframes hmCatFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(-1deg);
+  }
 }
 
 @media (max-width: 1024px) {
@@ -1235,5 +1440,35 @@
 
   .hm-option-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hm-workspace-grid,
+  .hm-input-panel,
+  .hm-preview-toolbar,
+  .hm-preview-content > *,
+  .hm-input-panel .hm-form-section,
+  .hm-input-panel .hm-generate-btn,
+  .hm-option-card.active,
+  .hm-tag.active,
+  .hm-result-paper,
+  .hm-empty-cat,
+  .hm-card,
+  .hm-list-card,
+  .hm-mode-tab.active,
+  .hm-mode-tab.active::after,
+  .hm-status-badge.loading::before {
+    animation: none !important;
+  }
+
+  .hm-mode-tab,
+  .hm-option-card,
+  .hm-tag,
+  .hm-generate-btn,
+  .hm-tool-btn,
+  .hm-list-card,
+  .hm-card {
+    transition: none !important;
   }
 }

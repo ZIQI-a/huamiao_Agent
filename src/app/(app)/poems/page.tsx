@@ -5,7 +5,6 @@ import { useCompletion } from "@ai-sdk/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PageContainer } from "@/components/layout/page-container";
 import { POEM_TYPES, DYNASTIES } from "@/lib/prompts/poem";
 import { downloadMarkdown } from "@/lib/export/markdown";
 
@@ -15,6 +14,7 @@ export default function Poems() {
     const [noun, setNoun] = useState("");
     const [type, setType] = useState("七言绝句");
     const [dynasty, setDynasty] = useState("唐");
+    const [copied, setCopied] = useState(false);
 
     const { completion, isLoading, error, complete } = useCompletion({
         api: "/api/poems/generate",
@@ -35,6 +35,8 @@ export default function Poems() {
 
         try {
             await navigator.clipboard.writeText(completion);
+            setCopied(true);
+            window.setTimeout(() => setCopied(false), 1200);
         } catch {
             window.alert("复制失败，请手动选择内容");
         }
@@ -43,7 +45,7 @@ export default function Poems() {
     const hasContent = completion.trim().length > 0;
 
     return (
-        <PageContainer title="古诗词生成" description="输入一个主题词，生成正文、注释与赏析。">
+        <div className="hm-page">
             <div className="hm-workspace-grid">
                 <section className="hm-input-panel" aria-label="古诗词创作参数">
                     <div className="hm-panel-heading">
@@ -131,7 +133,7 @@ export default function Poems() {
                                 disabled={!hasContent}
                                 onClick={handleCopy}
                             >
-                                复制
+                                {copied ? "已复制" : "复制"}
                             </Button>
                             <Button
                                 variant="ghost"
@@ -196,7 +198,7 @@ export default function Poems() {
                     </div>
                 </section>
             </div>
-        </PageContainer>
+        </div>
     );
 }
 

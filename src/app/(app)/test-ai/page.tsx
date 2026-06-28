@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PageContainer } from "@/components/layout/page-container";
 
 export default function TestAI() {
   const [reply, setReply] = useState<string>("");
@@ -33,7 +32,7 @@ export default function TestAI() {
   };
 
   return (
-    <PageContainer title="AI 测试" description="测试当前模型 API 调用">
+    <div className="hm-page">
       <div className="space-y-6">
         <Button onClick={handleTest} disabled={loading}>
           {loading ? "AI 思考中..." : "调用 AI"}
@@ -62,6 +61,6 @@ export default function TestAI() {
           </Card>
         )}
       </div>
-    </PageContainer>
+    </div>
   );
 }

@@ -4,7 +4,6 @@ import { useCompletion } from "@ai-sdk/react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PageContainer } from "@/components/layout/page-container";
 
 export default function StreamTest() {
   const {
@@ -21,7 +20,7 @@ export default function StreamTest() {
   });
 
   return (
-    <PageContainer title="流式测试" description="体验打字机效果">
+    <div className="hm-page">
       <div className="space-y-6">
         {/* 输入区 */}
         <form onSubmit={(e) => {
@@ -66,6 +65,6 @@ export default function StreamTest() {
           </div>
         )}
       </div>
-    </PageContainer>
+    </div>
   );
 }

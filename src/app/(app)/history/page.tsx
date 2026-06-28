@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PageContainer } from "@/components/layout/page-container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Article {
@@ -60,7 +59,7 @@ export default function History() {
     };
 
     return (
-        <PageContainer title="历史记录" description="查看已保存的文章和诗词。">
+        <div className="hm-page">
             <section className="hm-preview-panel min-h-[calc(100vh-150px)] rounded-[24px] border border-[var(--hm-border)]">
                 <div className="hm-preview-toolbar">
                     <div className="hm-toolbar-left">
@@ -156,7 +155,7 @@ export default function History() {
                     )}
                 </div>
             </section>
-        </PageContainer>
+        </div>
     );
 }
 

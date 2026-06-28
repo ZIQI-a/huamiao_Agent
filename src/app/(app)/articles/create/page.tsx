@@ -12,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PageContainer } from "@/components/layout/page-container";
 import MarkdownRenderer from "@/components/ui/markdown-renderer";
 import { ARTICLE_STYLES, DETAIL_LEVELS } from "@/lib/prompts/articles";
 import { downloadMarkdown } from "@/lib/export/markdown";
@@ -34,6 +33,7 @@ export default function CreateArticle() {
   const [stylesList, setStylesList] = useState<{ id: number; name: string }[]>([]);
   const [selectedStyleId, setSelectedStyleId] = useState<string>("");
   const [mode, setMode] = useState<"normal" | "imitate">("normal");
+  const [copied, setCopied] = useState(false);
 
   const { completion, isLoading, error, complete } = useCompletion({
     api: mode === "imitate" ? "/api/articles/imitate" : "/api/articles/generate",
@@ -80,6 +80,8 @@ export default function CreateArticle() {
 
     try {
       await navigator.clipboard.writeText(completion);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1200);
     } catch {
       window.alert("复制失败，请手动选择内容");
     }
@@ -94,7 +96,7 @@ export default function CreateArticle() {
     title.trim().length > 0 && !isLoading && (mode === "normal" || selectedStyleId);
 
   return (
-    <PageContainer title="文章创作" description="输入主题，选择风格，生成结构完整的文章初稿。">
+    <div className="hm-page">
       <div className="hm-workspace-grid">
         <section className="hm-input-panel" aria-label="文章创作参数">
           <div className="hm-panel-heading">
@@ -243,7 +245,7 @@ export default function CreateArticle() {
                 disabled={!hasContent}
                 onClick={handleCopy}
               >
-                复制
+                {copied ? "已复制" : "复制"}
               </Button>
               <Button
                 variant="ghost"
@@ -314,6 +316,6 @@ export default function CreateArticle() {
           </div>
         </section>
       </div>
-    </PageContainer>
+    </div>
   );
 }
