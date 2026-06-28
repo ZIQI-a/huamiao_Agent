@@ -14,7 +14,7 @@ const providers = {
   },
   mimo: {
     apiKey: process.env.MIMO_API_KEY,
-    baseURL: "https://token-plan-cn.xiaomimimo.com/v1",
+    baseURL: "https://api.xiaomimimo.com/v1",
   },
 } as const;
 

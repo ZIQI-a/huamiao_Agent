@@ -4,7 +4,7 @@
 export const llmModels = {
   deepseek: "deepseek-chat",
   qwen: "qwen-turbo",
-  mimo: "mimo-v2.5-pro",
+  mimo: "mimo-v2.5",
 } as const;
 
 export type LlmProviderKey = keyof typeof llmModels;
