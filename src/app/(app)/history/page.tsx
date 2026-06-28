@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PageContainer } from "@/components/layout/page-container";
@@ -42,6 +42,7 @@ export default function History() {
     };
 
     useEffect(() => {
+        // 初次进入历史页读取文章和诗词记录。
         // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchHistory();
     }, []);
@@ -58,90 +59,115 @@ export default function History() {
         setPoems(poems.filter((p) => p.id !== id));
     };
 
-    if (loading) {
-        return (
-            <PageContainer title="历史记录">
-                <p className="text-muted-foreground">加载中...</p>
-            </PageContainer>
-        );
-    }
-
     return (
-        <PageContainer title="历史记录" description="查看已创作的文章和诗词">
-            <Tabs defaultValue="articles">
-                <TabsList>
-                    <TabsTrigger value="articles">文章 ({articles.length})</TabsTrigger>
-                    <TabsTrigger value="poems">诗词 ({poems.length})</TabsTrigger>
-                </TabsList>
+        <PageContainer title="历史记录" description="查看已保存的文章和诗词。">
+            <section className="hm-preview-panel min-h-[calc(100vh-150px)] rounded-[24px] border border-[var(--hm-border)]">
+                <div className="hm-preview-toolbar">
+                    <div className="hm-toolbar-left">
+                        <span className={`hm-status-badge ${loading ? "loading" : articles.length + poems.length ? "done" : ""}`}>
+                            {loading ? "加载中" : `${articles.length + poems.length} 条记录`}
+                        </span>
+                    </div>
+                </div>
 
-                <TabsContent value="articles" className="space-y-4 mt-4">
-                    {articles.length === 0 ? (
-                        <p className="text-muted-foreground text-center py-8">
-                            还没有创作过文章
-                        </p>
+                <div className="hm-preview-content">
+                    {loading ? (
+                        <div className="hm-loading-state">
+                            <div className="hm-loading-cat">📋</div>
+                            <h3>正在读取历史</h3>
+                        </div>
                     ) : (
-                        articles.map((article) => (
-                            <Card key={article.id}>
-                                <CardHeader className="flex flex-row items-center justify-between">
-                                    <div>
-                                        <CardTitle className="text-lg">{article.title}</CardTitle>
-                                        <p className="text-sm text-muted-foreground">
-                                            {article.style} · {new Date(article.createdAt).toLocaleDateString("zh-CN")}
-                                        </p>
-                                    </div>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => handleDeleteArticle(article.id)}
-                                    >
-                                        删除
-                                    </Button>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-sm text-muted-foreground line-clamp-3">
-                                        {article.content.slice(0, 200)}...
-                                    </p>
-                                </CardContent>
-                            </Card>
-                        ))
-                    )}
-                </TabsContent>
+                        <Tabs defaultValue="articles">
+                            <TabsList className="mb-5 rounded-2xl bg-[var(--hm-bg-warm)] p-1">
+                                <TabsTrigger value="articles" className="rounded-xl">
+                                    文章 ({articles.length})
+                                </TabsTrigger>
+                                <TabsTrigger value="poems" className="rounded-xl">
+                                    诗词 ({poems.length})
+                                </TabsTrigger>
+                            </TabsList>
 
-                <TabsContent value="poems" className="space-y-4 mt-4">
-                    {poems.length === 0 ? (
-                        <p className="text-muted-foreground text-center py-8">
-                            还没有创作过诗词
-                        </p>
-                    ) : (
-                        poems.map((poem) => (
-                            <Card key={poem.id}>
-                                <CardHeader className="flex flex-row items-center justify-between">
-                                    <div>
-                                        <CardTitle className="text-lg">
-                                            「{poem.noun}」— {poem.type}
-                                        </CardTitle>
-                                        <p className="text-sm text-muted-foreground">
-                                            {poem.dynasty}风 · {new Date(poem.createdAt).toLocaleDateString("zh-CN")}
-                                        </p>
-                                    </div>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => handleDeletePoem(poem.id)}
-                                    >
-                                        删除
-                                    </Button>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-sm whitespace-pre-line">
-                                        {poem.content.split("---")[0]}
-                                    </p>
-                                </CardContent>
-                            </Card>
-                        ))
+                            <TabsContent value="articles" className="space-y-4">
+                                {articles.length === 0 ? (
+                                    <EmptyHistory title="还没有创作过文章" />
+                                ) : (
+                                    articles.map((article) => (
+                                        <Card key={article.id} className="hm-list-card">
+                                            <CardHeader className="flex flex-row items-start justify-between gap-4">
+                                                <div>
+                                                    <CardTitle className="text-lg">{article.title}</CardTitle>
+                                                    <p className="mt-1 text-sm text-[var(--hm-muted)]">
+                                                        {article.style} · {new Date(article.createdAt).toLocaleDateString("zh-CN")}
+                                                    </p>
+                                                </div>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => handleDeleteArticle(article.id)}
+                                                    className="hm-tool-btn"
+                                                >
+                                                    删除
+                                                </Button>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <p className="line-clamp-3 text-sm leading-7 text-[var(--hm-muted)]">
+                                                    {article.content.slice(0, 220)}...
+                                                </p>
+                                            </CardContent>
+                                        </Card>
+                                    ))
+                                )}
+                            </TabsContent>
+
+                            <TabsContent value="poems" className="space-y-4">
+                                {poems.length === 0 ? (
+                                    <EmptyHistory title="还没有创作过诗词" />
+                                ) : (
+                                    poems.map((poem) => (
+                                        <Card key={poem.id} className="hm-list-card">
+                                            <CardHeader className="flex flex-row items-start justify-between gap-4">
+                                                <div>
+                                                    <CardTitle className="text-lg">
+                                                        「{poem.noun}」— {poem.type}
+                                                    </CardTitle>
+                                                    <p className="mt-1 text-sm text-[var(--hm-muted)]">
+                                                        {poem.dynasty}风 · {new Date(poem.createdAt).toLocaleDateString("zh-CN")}
+                                                    </p>
+                                                </div>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => handleDeletePoem(poem.id)}
+                                                    className="hm-tool-btn"
+                                                >
+                                                    删除
+                                                </Button>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <p className="whitespace-pre-line font-serif text-sm leading-8 text-[var(--hm-fg)]">
+                                                    {poem.content.split("---")[0]}
+                                                </p>
+                                            </CardContent>
+                                        </Card>
+                                    ))
+                                )}
+                            </TabsContent>
+                        </Tabs>
                     )}
-                </TabsContent>
-            </Tabs>
+                </div>
+            </section>
         </PageContainer>
+    );
+}
+
+function EmptyHistory({ title }: { title: string }) {
+    return (
+        <div className="hm-empty-state">
+            <div className="hm-empty-cat">
+                <span className="hm-empty-cat-face" />
+            </div>
+            <h3>{title}</h3>
+            <p>完成一次生成后，内容会自动保存到这里。</p>
+        </div>
     );
 }

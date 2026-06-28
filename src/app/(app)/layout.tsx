@@ -6,9 +6,9 @@ export default function AppLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen">
+    <div className="hm-workspace-shell">
       <Sidebar />
-      <main className="flex-1 overflow-y-auto pt-16 md:pt-20">
+      <main className="hm-workspace-main">
         {children}
       </main>
     </div>

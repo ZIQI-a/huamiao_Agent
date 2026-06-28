@@ -3,95 +3,91 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { useTheme } from "next-themes";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { APP_NAV_ITEMS, ROUTES } from "@/lib/routes";
+
+function getCurrentTitle(pathname: string) {
+  const current = APP_NAV_ITEMS.find((item) => item.href === pathname);
+  return current?.label || "创作";
+}
 
 export function Sidebar() {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const currentTitle = getCurrentTitle(pathname);
 
   return (
     <>
-      {/* 移动端顶部栏 */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-card border-b p-4 flex items-center justify-between">
-        <Link href={ROUTES.home} className="flex items-center gap-2">
-          <span className="text-2xl">🐱</span>
-          <span className="font-bold text-primary">话喵</span>
-        </Link>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="p-2 hover:bg-muted rounded-lg"
-        >
-          {isOpen ? "✕" : "☰"}
-        </button>
-      </div>
-
-      {/* 遮罩层 */}
-      {isOpen && (
-        <div
-          className="md:hidden fixed inset-0 z-40 bg-black/50"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
-      {/* 侧边栏 */}
-      <aside
-        className={cn(
-          "fixed md:static inset-y-0 left-0 z-50 w-64 border-r bg-card flex flex-col transition-transform md:translate-x-0",
-          isOpen ? "translate-x-0" : "-translate-x-full",
-        )}
-      >
-        {/* Logo */}
-        <div className="p-6 border-b">
-          <Link
-            href={ROUTES.home}
-            className="flex items-center gap-2"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="text-3xl">🐱</span>
-            <div>
-              <h1 className="text-xl font-bold text-primary">话喵</h1>
-              <p className="text-xs text-muted-foreground">AI 智能创作平台</p>
-            </div>
+      <header className="hm-topbar">
+        <div className="hm-topbar-left">
+          <Link href={ROUTES.landing} className="hm-logo-link">
+            <span className="hm-logo-cat" aria-hidden="true">
+              <span className="hm-logo-face" />
+            </span>
+            <span className="hm-logo-text">话喵</span>
           </Link>
+          <div className="hm-breadcrumb">
+            <span>工作台</span>
+            <span className="hm-breadcrumb-sep">/</span>
+            <span className="hm-breadcrumb-current">{currentTitle}</span>
+          </div>
         </div>
 
-        {/* 导航菜单 */}
-        <nav className="flex-1 p-4 space-y-1">
-          {APP_NAV_ITEMS.map((item) => {
+        <nav className="hm-mode-tabs" aria-label="工作台导航">
+          {APP_NAV_ITEMS.slice(0, 3).map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setIsOpen(false)}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
-                  isActive
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                )}
+                className={cn("hm-mode-tab", isActive && "active")}
               >
-                <span className="text-lg">{item.icon}</span>
                 {item.label}
               </Link>
             );
           })}
         </nav>
 
-        {/* 底部信息 */}
-        <div className="p-4 border-t">
-          <div className="text-xs text-muted-foreground">
-            <p className="mt-1">v0.1.0</p>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >{theme === "dark" ? "☀️" : "🌙"}</Button>
-          </div>
+        <div className="hm-topbar-right">
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="hm-icon-btn"
+            aria-label="切换主题"
+            title="切换主题"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? "☀️" : "🌙"}
+          </Button>
+          <div className="hm-avatar" title="个人中心">喵</div>
+        </div>
+      </header>
+
+      <aside className="hm-side-rail" aria-label="工作台侧栏">
+        <Link href={ROUTES.home} className="hm-rail-logo" aria-label="工作台首页">
+          🐱
+        </Link>
+
+        <nav className="hm-rail-nav">
+          {APP_NAV_ITEMS.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn("hm-rail-btn", isActive && "active")}
+                data-tooltip={item.label}
+                aria-label={item.label}
+              >
+                <span aria-hidden="true">{item.icon}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="hm-rail-footer">
+          <span>v0.1.0</span>
         </div>
       </aside>
     </>

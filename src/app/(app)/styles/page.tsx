@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,14 +24,17 @@ export default function StylesPage() {
     const nameRef = useRef<HTMLInputElement>(null);
 
     const fetchStyles = async () => {
-        const res = await fetch("/api/styles");
-        const data = await res.json();
-        setStyles(data);
-        setLoading(false);
+        try {
+            const res = await fetch("/api/styles");
+            const data = await res.json();
+            setStyles(data);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
+        // 初次进入页面加载风格库列表。
         fetchStyles();
     }, []);
 
@@ -52,7 +55,7 @@ export default function StylesPage() {
             const data = await res.json();
 
             if (data.success) {
-                fetchStyles();
+                await fetchStyles();
                 if (fileRef.current) fileRef.current.value = "";
                 if (nameRef.current) nameRef.current.value = "";
             } else {
@@ -74,7 +77,7 @@ export default function StylesPage() {
             const data = await res.json();
 
             if (data.success) {
-                fetchStyles();
+                await fetchStyles();
             } else {
                 alert(data.error);
             }
@@ -90,95 +93,112 @@ export default function StylesPage() {
     };
 
     return (
-        <PageContainer title="风格文库" description="导入文章，分析写作风格">
-            {/* 上传区 */}
-            <Card className="mb-6">
-                <CardHeader>
-                    <CardTitle>导入文章</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex gap-4 items-end flex-wrap">
-                        <div className="space-y-2">
-                            <Label>文章名称（可选）</Label>
-                            <Input ref={nameRef} placeholder="如：鲁迅杂文风格" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label>选择文件</Label>
-                            <input
-                                ref={fileRef}
-                                type="file"
-                                accept=".txt,.md"
-                                className="block text-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-primary file:text-primary-foreground"
-                            />
-                        </div>
-                        <Button onClick={handleUpload} disabled={uploading}>
-                            {uploading ? "上传中..." : "导入"}
-                        </Button>
+        <PageContainer title="风格文库" description="导入参考文章，分析写作风格，并用于文章仿写。">
+            <div className="grid grid-cols-1 gap-5 xl:grid-cols-[380px_minmax(0,1fr)]">
+                <section className="hm-input-panel rounded-[24px] border border-[var(--hm-border)]">
+                    <div className="hm-panel-heading">
+                        <span className="hm-panel-icon">📚</span>
+                        <h2 className="hm-panel-title">导入文章</h2>
                     </div>
-                </CardContent>
-            </Card>
 
-            {/* 风格列表 */}
-            {loading ? (
-                <p className="text-muted-foreground">加载中...</p>
-            ) : styles.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
-                    <div className="text-5xl mb-4">📚</div>
-                    <p>还没有导入任何文章</p>
-                    <p className="text-sm">上传 .txt 或 .md 文件，AI 会分析其写作风格</p>
-                </div>
-            ) : (
-                <div className="space-y-4">
-                    {styles.map((item) => (
-                        <Card key={item.id}>
-                            <CardHeader className="flex flex-row items-start justify-between">
-                                <div>
-                                    <CardTitle className="text-lg">{item.name}</CardTitle>
-                                    <p className="text-sm text-muted-foreground">
-                                        {item.content.length} 字 ·{" "}
-                                        {new Date(item.createdAt).toLocaleDateString("zh-CN")}
-                                    </p>
-                                </div>
-                                <div className="flex gap-2">
-                                    {!item.analysis && (
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => handleAnalyze(item.id)}
-                                            disabled={analyzing === item.id}
-                                        >
-                                            {analyzing === item.id ? "分析中..." : "分析风格"}
-                                        </Button>
-                                    )}
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        onClick={() => handleDelete(item.id)}
-                                    >
-                                        删除
-                                    </Button>
-                                </div>
-                            </CardHeader>
-                            <CardContent>
-                                {/* 内容预览 */}
-                                <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
-                                    {item.content.slice(0, 300)}...
-                                </p>
+                    <div className="hm-form-section">
+                        <Label className="hm-field-label">文章名称</Label>
+                        <Input ref={nameRef} placeholder="如：鲁迅杂文风格" className="hm-text-input" />
+                    </div>
 
-                                {/* 风格分析结果 */}
-                                {item.analysis && (
-                                    <div className="bg-muted rounded-lg p-4">
-                                        <h4 className="font-medium mb-2">风格分析</h4>
-                                        <pre className="text-sm whitespace-pre-wrap">
-                      {item.analysis}
-                    </pre>
-                                    </div>
-                                )}
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-            )}
+                    <div className="hm-form-section">
+                        <Label className="hm-field-label">选择文件</Label>
+                        <input
+                            ref={fileRef}
+                            type="file"
+                            accept=".txt,.md"
+                            className="block w-full rounded-xl border-2 border-[var(--hm-border)] bg-[var(--hm-surface-2)] p-3 text-sm file:mr-4 file:rounded-lg file:border-0 file:bg-[var(--hm-accent)] file:px-4 file:py-2 file:text-white"
+                        />
+                        <div className="hm-field-hint">支持 .txt / .md，内容至少 50 字</div>
+                    </div>
+
+                    <Button onClick={handleUpload} disabled={uploading} className="hm-generate-btn">
+                        {uploading ? "上传中..." : "导入风格"}
+                    </Button>
+                </section>
+
+                <section className="hm-preview-panel rounded-[24px] border border-[var(--hm-border)]">
+                    <div className="hm-preview-toolbar">
+                        <div className="hm-toolbar-left">
+                            <span className={`hm-status-badge ${loading ? "loading" : styles.length ? "done" : ""}`}>
+                                {loading ? "加载中" : `${styles.length} 个风格`}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="hm-preview-content">
+                        {loading ? (
+                            <div className="hm-loading-state">
+                                <div className="hm-loading-cat">📚</div>
+                                <h3>正在读取风格库</h3>
+                            </div>
+                        ) : styles.length === 0 ? (
+                            <div className="hm-empty-state">
+                                <div className="hm-empty-cat">
+                                    <span className="hm-empty-cat-face" />
+                                </div>
+                                <h3>还没有导入文章</h3>
+                                <p>上传一篇参考文章，话喵会分析其语调、用词、句式和写作特点。</p>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 gap-4 2xl:grid-cols-2">
+                                {styles.map((item) => (
+                                    <Card key={item.id} className="hm-card">
+                                        <CardHeader className="flex flex-row items-start justify-between gap-4">
+                                            <div>
+                                                <CardTitle className="text-lg">{item.name}</CardTitle>
+                                                <p className="text-sm text-[var(--hm-muted)]">
+                                                    {item.content.length} 字 ·{" "}
+                                                    {new Date(item.createdAt).toLocaleDateString("zh-CN")}
+                                                </p>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                {!item.analysis && (
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => handleAnalyze(item.id)}
+                                                        disabled={analyzing === item.id}
+                                                        className="hm-tool-btn primary"
+                                                    >
+                                                        {analyzing === item.id ? "分析中" : "分析"}
+                                                    </Button>
+                                                )}
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => handleDelete(item.id)}
+                                                    className="hm-tool-btn"
+                                                >
+                                                    删除
+                                                </Button>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="mb-4 line-clamp-3 text-sm leading-7 text-[var(--hm-muted)]">
+                                                {item.content.slice(0, 300)}...
+                                            </p>
+                                            {item.analysis && (
+                                                <div className="rounded-2xl bg-[var(--hm-surface-2)] p-4">
+                                                    <h4 className="mb-2 text-sm font-bold">风格分析</h4>
+                                                    <pre className="whitespace-pre-wrap text-xs leading-6 text-[var(--hm-muted)]">
+                                                        {item.analysis}
+                                                    </pre>
+                                                </div>
+                                            )}
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </section>
+            </div>
         </PageContainer>
     );
 }

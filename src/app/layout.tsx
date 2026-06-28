@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, ZCOOL_KuaiLe } from "next/font/google";
+import { Inter, Noto_Sans_SC, Noto_Serif_SC, ZCOOL_KuaiLe } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const notoSansSc = Noto_Sans_SC({
+  subsets: ["latin"],
+  variable: "--font-noto-sans-sc",
+});
+const notoSerifSc = Noto_Serif_SC({
+  subsets: ["latin"],
+  variable: "--font-noto-serif-sc",
+});
 const zcoolKuaiLe = ZCOOL_KuaiLe({
   weight: "400",
   subsets: ["latin"],
@@ -25,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="zh-CN"
-      className={`${inter.variable} ${zcoolKuaiLe.variable}`}
+      className={`${inter.variable} ${notoSansSc.variable} ${notoSerifSc.variable} ${zcoolKuaiLe.variable}`}
       suppressHydrationWarning
     >
       <body className="font-sans">
